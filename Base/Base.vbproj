@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{55A40D54-6587-4D1D-811A-9F2B53A43772}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>
+    </RootNamespace>
+    <AssemblyName>CommonRoutines.Base</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\Binaries\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Binaries\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="CommonRoutines.Extensions" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cryptography\TripleDES.vb" />
+    <Compile Include="Cryptography\Random.vb" />
+    <Compile Include="Data\IDBAccess.vb" />
+    <Compile Include="Data\Odbc\DBAccess.vb" />
+    <Compile Include="Data\Odbc\DBAccessAsync.vb" />
+    <Compile Include="Data\Odbc\_Shared.vb" />
+    <Compile Include="Data\OleDb\DBAccess.vb" />
+    <Compile Include="Data\OleDb\DBAccessAsync.vb" />
+    <Compile Include="Data\OleDb\_Shared.vb" />
+    <Compile Include="Data\Sql\DBAccess.vb" />
+    <Compile Include="Data\Sql\DBAccessAsync.vb" />
+    <Compile Include="Data\Sql\_Shared.vb" />
+    <Compile Include="Data\Xml\_Shared.vb" />
+    <Compile Include="Data\IDBAccessAsync.vb" />
+    <Compile Include="Data\SortableSearchableBindingList.vb" />
+    <Compile Include="Data\_Shared.vb" />
+    <Compile Include="Enums\PerformanceType.vb" />
+    <Compile Include="Enums\PerformanceState.vb" />
+    <Compile Include="Enums\BaseDirectory.vb" />
+    <Compile Include="Errors\_Shared.vb" />
+    <Compile Include="Extensions\System\Collections\Generic\IDictionary.vb" />
+    <Compile Include="Extensions\System\Data\IDataReader.vb" />
+    <Compile Include="Extensions\System\Boolean.vb" />
+    <Compile Include="Extensions\System\Diagnostics\FileVersionInfo.vb" />
+    <Compile Include="Extensions\System\Long.vb" />
+    <Compile Include="Extensions\System\Integer.vb" />
+    <Compile Include="Extensions\System\Version.vb" />
+    <Compile Include="Extensions\System\Data\Odbc\OdbcCommand.vb" />
+    <Compile Include="Extensions\System\Data\OleDb\OleDbCommand.vb" />
+    <Compile Include="Extensions\System\Data\SqlClient\SqlCommand.vb" />
+    <Compile Include="Extensions\System\Exception.vb" />
+    <Compile Include="Extensions\System\Date.vb" />
+    <Compile Include="Extensions\System\String.vb" />
+    <Compile Include="Extensions\System\Type.vb" />
+    <Compile Include="Models\PropertyComparer.vb" />
+    <Compile Include="Models\GenericChanged.vb" />
+    <Compile Include="Models\FormSizeLocation.vb" />
+    <Compile Include="Models\Setting.vb" />
+    <Compile Include="Models\PerformanceCounter.vb" />
+    <Compile Include="Models\ErrorDetail.vb" />
+    <Compile Include="Performance\_Shared.vb" />
+    <Compile Include="Reflection\PropertyWrapper.vb" />
+    <Compile Include="Reflection\IPropertyAccessor.vb" />
+    <Compile Include="Reflection\FieldWrapper.vb" />
+    <Compile Include="Reflection\IFieldAccessor.vb" />
+    <Compile Include="Reflection\_Shared.vb" />
+    <Compile Include="Settings\_Shared.vb" />
+    <Compile Include="Type\System\Byte.vb" />
+    <Compile Include="Type\System\DateTime.vb" />
+    <Compile Include="Type\System\Decimal.vb" />
+    <Compile Include="Type\System\Double.vb" />
+    <Compile Include="Type\System\Integer.vb" />
+    <Compile Include="Type\System\String.vb" />
+    <Compile Include="Type\System\Single.vb" />
+    <Compile Include="Type\System\Long.vb" />
+    <Compile Include="Type\System\Boolean.vb" />
+    <Compile Include="Type\_Shared.vb" />
+    <Compile Include="_Shared.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

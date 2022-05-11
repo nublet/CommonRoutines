@@ -110,6 +110,12 @@
 
         Private _ErrorDetailLocation As String = ""
 
+        Public ReadOnly Property ErrorDetailLocation As String
+            Get
+                Return _ErrorDetailLocation
+            End Get
+        End Property
+
         Private Sub LogErrorDetail(silent As Boolean, ByRef errorDetail As Models.ErrorDetail)
             Try
                 Using writer As New IO.StreamWriter(_ErrorDetailLocation, True)
@@ -125,6 +131,12 @@
 #Region " Performance Handler "
 
         Private _PerformanceCounterLocation As String = ""
+
+        Public ReadOnly Property PerformanceCounterLocation As String
+            Get
+                Return _PerformanceCounterLocation
+            End Get
+        End Property
 
         Private Sub LogPerformanceCounter(performanceState As Enums.PerformanceState, ByRef performanceCounter As Models.PerformanceCounter)
             Try

@@ -66,9 +66,9 @@
                 Return
             End If
 
-            If FullName.StartsWith("ServiceRequestClient.Controls.Views") Then
+            If FullName.StartsWith("ServiceRequestClient.Controls") Then
                 c.BackColor = UITheme.BackColor
-            ElseIf FullName.StartsWith("Utilities.Controls.Views") Then
+            ElseIf FullName.StartsWith("Utilities.Controls") Then
                 c.BackColor = UITheme.BackColor
             Else
                 Select Case FullName

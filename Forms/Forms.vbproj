@@ -150,6 +150,12 @@
     <Compile Include="Forms\BorderlessForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\MessageBox.Designer.vb">
+      <DependentUpon>MessageBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MessageBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Models\ComboItem.vb" />
     <Compile Include="Models\DialogState.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -183,6 +189,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UITheme\_Shared.vb" />
+    <Compile Include="MessageBox.vb" />
     <Compile Include="_Shared.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BorderlessForm.resx">
       <DependentUpon>BorderlessForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MessageBox.resx">
+      <DependentUpon>MessageBox.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -263,6 +273,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\restoreLight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appbar.bug.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -210,14 +210,14 @@
         End Sub
 
         Private WithEvents TitlePanel As Panel
-        Private WithEvents CaptionLabel As Label
+        Private CaptionLabel As Label
         Private WithEvents CloseButton As Button
-        Private WithEvents ButtonPanel As Panel
+        Private ButtonPanel As Panel
         Private WithEvents ThirdButton As Button
         Private WithEvents SecondButton As Button
         Private WithEvents FirstButton As Button
-        Private WithEvents BodyPanel As Panel
-        Private WithEvents MessageLabel As Label
+        Private BodyPanel As Panel
+        Private MessageLabel As Label
         Private WithEvents IconPictureBox As PictureBox
         Private WithEvents BugPictureBox As PictureBox
     End Class

@@ -89,6 +89,9 @@
                         Item.ForeColor = UITheme.ForeColor
                         Item.CheckedColor = UITheme.ForeColor
                         Item.UncheckedColor = UITheme.SelectionBackColor
+                        If UITheme.ForceUseTicks Then
+                            Item.UseTick = True
+                        End If
 
                     Case "CommonRoutines.Controls.ComboBox"
                         Dim Item As Controls.ComboBox = DirectCast(c, Controls.ComboBox)

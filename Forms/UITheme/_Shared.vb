@@ -10,6 +10,7 @@ Namespace CommonRoutines.UITheme
 
         Public Property BackColor As Color = Color.FromArgb(42, 45, 86)
         Public Property BorderColor As Color = Color.FromArgb(107, 83, 255)
+        Public Property ForceUseTicks As Boolean = False
         Public Property ForeColor As Color = Color.FromArgb(124, 141, 181)
         Public Property FormBackColor As Color = Color.FromArgb(24, 28, 63)
         Public Property GridFontSize As Single = 11

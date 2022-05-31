@@ -193,6 +193,9 @@
     <Compile Include="_Shared.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\ComboBox.resx">
+      <DependentUpon>ComboBox.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListResults.resx">
       <DependentUpon>ListResults.vb</DependentUpon>
     </EmbeddedResource>

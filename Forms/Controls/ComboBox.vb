@@ -367,6 +367,16 @@ Namespace CommonRoutines.Controls
             End If
         End Sub
 
+        Private Sub InitializeComponent()
+            Me.SuspendLayout()
+            '
+            'ComboBox
+            '
+            Me.Name = "ComboBox"
+            Me.ResumeLayout(False)
+
+        End Sub
+
 #End Region
 
     End Class

@@ -91,6 +91,17 @@
                 FormSizeLocation = New Models.FormSizeLocation
             End If
 
+            If f.WindowState = FormWindowState.Maximized Then
+                FormSizeLocation.IsMaximised = True
+                FormSizeLocation.IsMinimized = False
+            ElseIf f.WindowState = FormWindowState.Minimized Then
+                FormSizeLocation.IsMaximised = False
+                FormSizeLocation.IsMinimized = True
+            Else
+                FormSizeLocation.IsMaximised = False
+                FormSizeLocation.IsMinimized = False
+            End If
+
             FormSizeLocation.Height = f.Height
             FormSizeLocation.Left = f.Left
             FormSizeLocation.Top = f.Top
@@ -138,9 +149,9 @@
                 formSizeLocation.Width = 300
             End If
 
-            Dim FormSizeLocationRectangle As New Rectangle(formSizeLocation.Left, formSizeLocation.Top, formSizeLocation.Width, formSizeLocation.Height)
+            Dim FormRectangle As New Rectangle(formSizeLocation.Left, formSizeLocation.Top, formSizeLocation.Width, formSizeLocation.Height)
 
-            If formSizeLocation.Left < 0 OrElse formSizeLocation.Top < 0 OrElse Not FormSizeLocationRectangle.IsOnScreen() Then
+            If formSizeLocation.Left < 0 OrElse formSizeLocation.Top < 0 OrElse Not FormRectangle.IsOnScreen() Then
                 Dim WorkingArea As Rectangle = GetScreenWorkingArea()
                 formSizeLocation.Left = CInt(WorkingArea.X + ((WorkingArea.Width / 2) - (formSizeLocation.Width / 2)))
                 formSizeLocation.Top = CInt(WorkingArea.Y + ((WorkingArea.Height / 2) - (formSizeLocation.Height / 2)))
@@ -160,6 +171,16 @@
             If Settings.ForceFormBackColor Then
                 f.BackColor = UITheme.FormBackColor
             End If
+
+            If formSizeLocation.IsMaximised Then
+                f.WindowState = FormWindowState.Maximized
+            ElseIf formSizeLocation.IsMinimized Then
+                f.WindowState = FormWindowState.Minimized
+            Else
+                f.WindowState = FormWindowState.Normal
+            End If
+
+            f.BringToFront()
         End Sub
 
     End Module

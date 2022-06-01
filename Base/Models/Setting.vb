@@ -1,8 +1,6 @@
 ﻿Namespace CommonRoutines.Models
 
-    <Xml.Serialization.XmlInclude(GetType(FormSizeLocation))>
-    <Xml.Serialization.XmlInclude(GetType(List(Of String)))>
-    <Serializable()> Public Class Setting
+    <Xml.Serialization.XmlInclude(GetType(FormSizeLocation))> <Xml.Serialization.XmlInclude(GetType(List(Of String)))> <Serializable()> Public Class Setting
 
         Public Property Name As String = ""
         Public Property Value As Object = Nothing

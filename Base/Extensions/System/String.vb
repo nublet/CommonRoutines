@@ -66,14 +66,26 @@
                 Dim ServicePack As Integer = Type.ToIntegerDB(VersionParts(2))
 
                 Select Case Year
+                    Case 16
+                        Return "2022"
+                    Case 15
+                        Return "2019"
+                    Case 14
+                        Return "2017"
                     Case 13
-                        If ServicePack >= 4001 Then
+                        If ServicePack >= 6300 Then
+                            Return "2016 SP3"
+                        ElseIf ServicePack >= 5026 Then
+                            Return "2016 SP2"
+                        ElseIf ServicePack >= 4001 Then
                             Return "2016 SP1"
                         Else
                             Return "2016"
                         End If
                     Case 12
-                        If ServicePack >= 5000 Then
+                        If ServicePack >= 6024 Then
+                            Return "2014 SP3"
+                        ElseIf ServicePack >= 5000 Then
                             Return "2014 SP2"
                         ElseIf ServicePack >= 4100 Then
                             Return "2014 SP1"
@@ -81,26 +93,33 @@
                             Return "2014"
                         End If
                     Case 11
-                        Select Case Release
-                            Case 0
-                                If ServicePack >= 3000 Then
-                                    Return "2012 SP1"
-                                Else
-                                    Return "2012"
-                                End If
-                        End Select
+                        If ServicePack >= 7001 Then
+                            Return "2012 SP4"
+                        ElseIf ServicePack >= 6020 Then
+                            Return "2012 SP3"
+                        ElseIf ServicePack >= 5058 Then
+                            Return "2012 SP2"
+                        ElseIf ServicePack >= 3000 Then
+                            Return "2012 SP1"
+                        Else
+                            Return "2012"
+                        End If
                     Case 10
                         Select Case Release
                             Case 50
-                                If ServicePack >= 4000 Then
+                                If ServicePack >= 6000 Then
+                                    Return "2008 R2 SP3"
+                                ElseIf ServicePack >= 4000 Then
                                     Return "2008 R2 SP2"
                                 ElseIf ServicePack >= 2500 Then
                                     Return "2008 R2 SP1"
                                 Else
                                     Return "2008 R2"
                                 End If
-                            Case 0
-                                If ServicePack >= 5500 Then
+                            Case 0, 1
+                                If ServicePack >= 6000 Then
+                                    Return "2008 SP4"
+                                ElseIf ServicePack >= 5500 Then
                                     Return "2008 SP3"
                                 ElseIf ServicePack >= 4000 Then
                                     Return "2008 SP2"
@@ -111,48 +130,66 @@
                                 End If
                         End Select
                     Case 9
-                        Select Case Release
-                            Case 0
-                                If ServicePack >= 5000 Then
-                                    Return "2005 SP4"
-                                ElseIf ServicePack >= 4035 Then
-                                    Return "2005 SP3"
-                                ElseIf ServicePack >= 3042 Then
-                                    Return "2005 SP2"
-                                ElseIf ServicePack >= 2047 Then
-                                    Return "2005 SP1"
-                                Else
-                                    Return "2005"
-                                End If
-                        End Select
+                        If ServicePack >= 5000 Then
+                            Return "2005 SP4"
+                        ElseIf ServicePack >= 4035 Then
+                            Return "2005 SP3"
+                        ElseIf ServicePack >= 3042 Then
+                            Return "2005 SP2"
+                        ElseIf ServicePack >= 2047 Then
+                            Return "2005 SP1"
+                        Else
+                            Return "2005"
+                        End If
                     Case 8
-                        Select Case Release
-                            Case 0
-                                If ServicePack >= 2039 Then
-                                    Return "2000 SP4"
-                                ElseIf ServicePack >= 760 Then
-                                    Return "2000 SP3"
-                                ElseIf ServicePack >= 532 Then
-                                    Return "2000 SP2"
-                                ElseIf ServicePack >= 384 Then
-                                    Return "2000 SP1"
-                                Else
-                                    Return "2000"
-                                End If
-                        End Select
+                        If ServicePack >= 2039 Then
+                            Return "2000 SP4"
+                        ElseIf ServicePack >= 760 Then
+                            Return "2000 SP3"
+                        ElseIf ServicePack >= 532 Then
+                            Return "2000 SP2"
+                        ElseIf ServicePack >= 384 Then
+                            Return "2000 SP1"
+                        Else
+                            Return "2000"
+                        End If
                     Case 7
+                        If ServicePack >= 1063 Then
+                            Return "7.0 SP4"
+                        ElseIf ServicePack >= 961 Then
+                            Return "7.0 SP3"
+                        ElseIf ServicePack >= 842 Then
+                            Return "7.0 SP2"
+                        ElseIf ServicePack >= 699 Then
+                            Return "7.0 SP1"
+                        Else
+                            Return "7.0"
+                        End If
+                    Case 6
                         Select Case Release
                             Case 0
-                                If ServicePack >= 1063 Then
-                                    Return "7.0 SP4"
-                                ElseIf ServicePack >= 961 Then
-                                    Return "7.0 SP3"
-                                ElseIf ServicePack >= 842 Then
-                                    Return "7.0 SP2"
-                                ElseIf ServicePack >= 699 Then
-                                    Return "7.0 SP1"
+                                If ServicePack >= 151 Then
+                                    Return "6.0 SP3"
+                                ElseIf ServicePack >= 139 Then
+                                    Return "6.0 SP2"
+                                ElseIf ServicePack >= 124 Then
+                                    Return "6.0 SP1"
                                 Else
-                                    Return "7.0"
+                                    Return "6.0"
+                                End If
+                            Case 50
+                                If ServicePack >= 416 Then
+                                    Return "6.5 SP5"
+                                ElseIf ServicePack >= 281 Then
+                                    Return "6.5 SP4"
+                                ElseIf ServicePack >= 258 Then
+                                    Return "6.5 SP3"
+                                ElseIf ServicePack >= 240 Then
+                                    Return "6.5 SP2"
+                                ElseIf ServicePack >= 213 Then
+                                    Return "6.5 SP1"
+                                Else
+                                    Return "6.5"
                                 End If
                         End Select
                 End Select

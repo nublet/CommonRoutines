@@ -78,10 +78,35 @@
         End Function
 
         Public Function GetProperties(canRead As Boolean, canWrite As Boolean, type As System.Type) As List(Of IPropertyAccessor)
+            If type Is Nothing Then
+                Return New List(Of IPropertyAccessor)
+            End If
+
             Dim Key As String = type.FullName.ToLower()
 
             If Not _Properties.ContainsKey(Key) Then
-                _Properties.Add(Key, type.GetProperties(System.Reflection.BindingFlags.Public Or System.Reflection.BindingFlags.NonPublic Or System.Reflection.BindingFlags.Instance).Where(Function(o) o.GetIndexParameters().Count <= 0).OrderBy(Function(o) o.Name).Select(Function(o) CreateAccessor(o)).ToList())
+                Dim Items As New List(Of IPropertyAccessor)
+
+                Try
+                    Dim PIs As System.Reflection.PropertyInfo() = type.GetProperties(System.Reflection.BindingFlags.Public Or System.Reflection.BindingFlags.NonPublic Or System.Reflection.BindingFlags.Instance)
+                    If PIs IsNot Nothing AndAlso PIs.Count() > 0 Then
+                        Dim Matches As IEnumerable(Of System.Reflection.PropertyInfo) = PIs.Where(Function(o) o.GetIndexParameters().Count <= 0)
+                        If Matches IsNot Nothing AndAlso Matches.Count() > 0 Then
+                            For Each Current As System.Reflection.PropertyInfo In Matches.OrderBy(Function(o) o.Name)
+                                Dim PA As IPropertyAccessor = CreateAccessor(Current)
+                                If PA Is Nothing Then
+                                    Continue For
+                                End If
+
+                                Items.Add(PA)
+                            Next
+                        End If
+                    End If
+                Catch ex As Exception
+                    ex.ToLog(True)
+                End Try
+
+                _Properties.Add(Key, Items)
             End If
 
             Dim Properties As IEnumerable(Of IPropertyAccessor) = _Properties(Key)

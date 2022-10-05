@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\Binaries\</OutputPath>
+    <OutputPath>..\..\..\_Binaries\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <DefineConstants>_MYFORMS=True</DefineConstants>
@@ -32,7 +32,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Binaries\</OutputPath>
+    <OutputPath>..\..\..\_Binaries\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <DefineConstants>_MYFORMS=True</DefineConstants>

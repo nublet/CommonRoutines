@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\Binaries\</OutputPath>
+    <OutputPath>..\..\..\_Binaries\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <NoWarn>
@@ -31,7 +31,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Binaries\</OutputPath>
+    <OutputPath>..\..\..\_Binaries\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <NoWarn>
@@ -119,6 +119,7 @@
     <Compile Include="Reflection\FieldWrapper.vb" />
     <Compile Include="Reflection\IFieldAccessor.vb" />
     <Compile Include="Reflection\_Shared.vb" />
+    <Compile Include="Registry\_Shared.vb" />
     <Compile Include="Settings\_Shared.vb" />
     <Compile Include="Type\System\Byte.vb" />
     <Compile Include="Type\System\DateTime.vb" />

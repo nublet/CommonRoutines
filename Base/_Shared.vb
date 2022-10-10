@@ -54,6 +54,31 @@
             Return Date.UtcNow
         End Function
 
+        Public Function GetListSortDescriptionCollection(Of T)(columnName As String, listSortDirection As ComponentModel.ListSortDirection) As ComponentModel.ListSortDescriptionCollection
+            Return GetListSortDescriptionCollection(Of T)({New KeyValuePair(Of String, ComponentModel.ListSortDirection)(columnName, listSortDirection)})
+        End Function
+
+        Public Function GetListSortDescriptionCollection(Of T)(sortColumns As IDictionary(Of String, ComponentModel.ListSortDirection)) As ComponentModel.ListSortDescriptionCollection
+            Return GetListSortDescriptionCollection(Of T)(sortColumns.ToArray())
+        End Function
+
+        Public Function GetListSortDescriptionCollection(Of T)(sortColumns As KeyValuePair(Of String, ComponentModel.ListSortDirection)()) As ComponentModel.ListSortDescriptionCollection
+            Dim PDC As ComponentModel.PropertyDescriptorCollection = ComponentModel.TypeDescriptor.GetProperties(GetType(T))
+
+            Dim Sorts As New List(Of ComponentModel.ListSortDescription)
+
+            For Each kvp As KeyValuePair(Of String, ComponentModel.ListSortDirection) In sortColumns
+                Dim PD As ComponentModel.PropertyDescriptor = PDC.Find(kvp.Key, True)
+                If PD Is Nothing Then
+                    Continue For
+                End If
+
+                Sorts.Add(New ComponentModel.ListSortDescription(PD, kvp.Value))
+            Next
+
+            Return New ComponentModel.ListSortDescriptionCollection(Sorts.ToArray())
+        End Function
+
         Public Function GetUsername() As String
             Dim Result As String = ""
 

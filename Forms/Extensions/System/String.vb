@@ -1,6 +1,6 @@
 ﻿Namespace CommonRoutines.Extensions
 
-    Public Module System_String
+    Public Module System_String_2
 
         <Runtime.CompilerServices.Extension()> Public Function IsPlural(s As String) As Boolean
             Return Settings.GetPluralizationService().IsPlural(s)

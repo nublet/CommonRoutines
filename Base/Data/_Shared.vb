@@ -36,7 +36,7 @@
                 Case "string", "varchar", "nvarchar"
                     fieldType = "String"
                 Case Else
-                    System_String.ToLog("Unhandled Field Data Type: {0}".FormatWith(fieldType.ToLower), True)
+                    System_String_1.ToLog("Unhandled Field Data Type: {0}".FormatWith(fieldType.ToLower), True)
             End Select
 
             results.Add(field, fieldType)

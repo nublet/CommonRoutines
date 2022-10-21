@@ -1,6 +1,6 @@
 ﻿Namespace CommonRoutines.Extensions
 
-    Public Module System_String
+    Public Module System_String_1
 
         <Runtime.CompilerServices.Extension()> Public Function CleanHTML(s As String) As String
             Return s.Replace("\", "/").Replace("//", "/")

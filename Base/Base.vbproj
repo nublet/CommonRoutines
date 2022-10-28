@@ -97,6 +97,7 @@
     <Compile Include="Extensions\System\Data\IDataReader.vb" />
     <Compile Include="Extensions\System\Boolean.vb" />
     <Compile Include="Extensions\System\Diagnostics\FileVersionInfo.vb" />
+    <Compile Include="Extensions\System\Net\WebException.vb" />
     <Compile Include="Extensions\System\Long.vb" />
     <Compile Include="Extensions\System\Integer.vb" />
     <Compile Include="Extensions\System\Version.vb" />

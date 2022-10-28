@@ -140,6 +140,7 @@
     <Compile Include="Extensions\System\Windows\Forms\DataVisualization\Charting\Axis.vb" />
     <Compile Include="Extensions\System\Windows\Forms\Form.vb" />
     <Compile Include="Extensions\System\Windows\Forms\FolderBrowserDialog.vb" />
+    <Compile Include="Extensions\System\Windows\Forms\SaveFileDialog.vb" />
     <Compile Include="Extensions\System\Windows\Forms\OpenFileDialog.vb" />
     <Compile Include="Extensions\System\Windows\Forms\ComboBox.vb" />
     <Compile Include="Extensions\System\Windows\Forms\TextBox.vb" />

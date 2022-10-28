@@ -53,6 +53,10 @@
             Log(silent, New Models.ErrorDetail(title, e))
         End Sub
 
+        Public Sub Log(silent As Boolean, title As String, ByRef e As Net.WebException)
+            Log(silent, New Models.ErrorDetail(title, e))
+        End Sub
+
         Public Sub Log(message As String, silent As Boolean, title As String)
             If message.IsNotSet Then
                 Return

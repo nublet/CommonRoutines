@@ -42,7 +42,16 @@
         Public Sub New(title As String, ByRef exception As Exception)
             _ErrorDate = GetCurrentDate()
             _Exception = exception
-            _Message = _Exception.Message
+            _Message = exception.Message
+            _Title = title
+
+            CheckDetails()
+        End Sub
+
+        Public Sub New(title As String, ByRef webException As Net.WebException)
+            _ErrorDate = GetCurrentDate()
+            _Exception = webException
+            _Message = webException.Message
             _Title = title
 
             CheckDetails()

@@ -55,6 +55,35 @@
             End Using
         End Sub
 
+        <Runtime.CompilerServices.Extension()> Public Sub SaveFile(t As Controls.TextBox, filter As String)
+            t.SaveFile(filter, "")
+        End Sub
+
+        <Runtime.CompilerServices.Extension()> Public Sub SaveFile(t As Controls.TextBox, filter As String, title As String)
+            Using SFD As New SaveFileDialog()
+                If t.Text.IsSet() Then
+                    SFD.FileName = t.Text
+                End If
+
+                If filter.IsSet Then
+                    SFD.Filter = filter
+                Else
+                    SFD.Filter = ""
+                End If
+
+                If title.IsSet() Then
+                    SFD.Title = title
+                End If
+
+                SFD.RestoreDirectory = False
+                SFD.SupportMultiDottedExtensions = True
+
+                If SFD.STAShowDialog() = Windows.Forms.DialogResult.OK Then
+                    t.Text = SFD.FileName
+                End If
+            End Using
+        End Sub
+
     End Module
 
 End Namespace

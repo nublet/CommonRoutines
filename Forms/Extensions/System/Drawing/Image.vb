@@ -2,15 +2,14 @@
 
     Public Module System_Drawing_Image
 
-        <Runtime.CompilerServices.Extension()> Public Function GetThumbnail(i As Image, size As Integer) As Image
+        <Runtime.CompilerServices.Extension()> Public Function GetThumbnail(i As System.Drawing.Image, size As Integer) As Drawing.Image
             Return i.GetThumbnail(size, size)
         End Function
 
-        <Runtime.CompilerServices.Extension()> Public Function GetThumbnail(i As Image, width As Integer, height As Integer) As Image
+        <Runtime.CompilerServices.Extension()> Public Function GetThumbnail(i As System.Drawing.Image, width As Integer, height As Integer) As Drawing.Image
             If i.Width <= width AndAlso i.Height < height Then
                 Return i
             End If
-
             If i.Width > i.Height Then
                 If i.Width > width Then
                     height = CInt(width * i.Height / i.Width)
@@ -20,47 +19,51 @@
                     width = CInt(height * i.Width / i.Height)
                 End If
             End If
-
             Return i.GetThumbnailImage(width, height, Nothing, IntPtr.Zero)
         End Function
 
-        <Runtime.CompilerServices.Extension()> Public Function GetForcedThumbnail(i As Image, desiredWidth As Integer, desiredHeight As Integer) As Image
-            Dim sourceWidth As Integer = i.Width
-            Dim sourceHeight As Integer = i.Height
+        <Runtime.CompilerServices.Extension()> Public Function GetForcedThumbnail(i As Drawing.Image, desiredWidth As Integer, desiredHeight As Integer) As Drawing.Image
+            Try
+                Dim NewHeight As Integer
+                Dim NewX As Integer
+                Dim NewWidth As Integer
+                Dim NewY As Integer
 
-            Dim sourceX As Integer = 0
-            Dim sourceY As Integer = 0
-            Dim destX As Integer = 0
-            Dim destY As Integer = 0
+                Dim OriginalHeight As Integer = i.Height
+                Dim OriginalWidth As Integer = i.Width
 
-            Dim nPercentW As Single = CSng(desiredWidth / sourceWidth)
-            Dim nPercentH As Single = CSng(desiredHeight / sourceHeight)
+                If OriginalHeight > desiredHeight OrElse OriginalWidth > desiredWidth Then
+                    Dim RatioWH As Double = OriginalWidth / OriginalHeight
 
-            Dim nPercent As Single
-            If nPercentH < nPercentW Then
-                nPercent = nPercentH
-                destX = Convert.ToInt16((desiredWidth - (sourceWidth * nPercent)) / 2)
-            Else
-                nPercent = nPercentW
-                destY = Convert.ToInt16((desiredHeight - (sourceHeight * nPercent)) / 2)
-            End If
+                    If OriginalWidth >= OriginalHeight Then
+                        NewWidth = desiredWidth
+                        NewHeight = CInt(desiredHeight / RatioWH)
+                    Else
+                        NewHeight = desiredHeight
+                        NewWidth = CInt(desiredWidth * RatioWH)
+                    End If
+                Else
+                    NewHeight = OriginalHeight
+                    NewWidth = OriginalWidth
+                End If
 
-            Dim destWidth As Integer = CInt((sourceWidth * nPercent))
-            Dim destHeight As Integer = CInt((sourceHeight * nPercent))
+                NewX = CInt((desiredWidth - NewWidth) / 2)
+                NewY = CInt((desiredHeight - NewHeight) / 2)
 
-            Dim Result As New Bitmap(desiredWidth, desiredHeight, Imaging.PixelFormat.Format24bppRgb)
-            Result.SetResolution(i.HorizontalResolution, i.VerticalResolution)
+                Dim Result As New Drawing.Bitmap(desiredWidth, desiredHeight, Drawing.Imaging.PixelFormat.Format24bppRgb)
 
-            Using g As Graphics = Graphics.FromImage(Result)
-                g.Clear(Color.Transparent)
+                Using g As Drawing.Graphics = Drawing.Graphics.FromImage(Result)
+                    g.Clear(Drawing.Color.White)
+                    g.InterpolationMode = Drawing.Drawing2D.InterpolationMode.NearestNeighbor
+                    g.DrawImage(i, New Drawing.Rectangle(NewX, NewY, NewWidth, NewHeight), New Drawing.Rectangle(0, 0, OriginalWidth, OriginalHeight), Drawing.GraphicsUnit.Pixel)
+                End Using
 
-                g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-                g.DrawImage(i, New Rectangle(destX, destY, destWidth, destHeight), New Rectangle(sourceX, sourceY, sourceWidth, sourceHeight), GraphicsUnit.Pixel)
-            End Using
+                Return Result
+            Catch ex As Exception
+                ex.ToLog(True)
+            End Try
 
-            Result.MakeTransparent()
-
-            Return Result
+            Return i.GetThumbnail(desiredWidth, desiredHeight)
         End Function
 
 

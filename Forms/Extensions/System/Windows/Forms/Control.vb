@@ -68,6 +68,8 @@
 
             If FullName.StartsWith("ServiceRequestClient.Controls") Then
                 c.BackColor = UITheme.BackColor
+            ElseIf FullName.StartsWith("Tools.UserControls") Then
+                c.BackColor = UITheme.BackColor
             ElseIf FullName.StartsWith("Utilities.Controls") Then
                 c.BackColor = UITheme.BackColor
             Else

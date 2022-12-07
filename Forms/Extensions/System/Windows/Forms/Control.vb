@@ -112,6 +112,28 @@
                         Item.BorderColor = UITheme.BorderColor
                         Item.ForeColor = UITheme.ForeColor
 
+                    Case "CommonRoutines.Controls.DBDataGridView"
+                        Dim Item As Controls.DBDataGridView = DirectCast(c, Controls.DBDataGridView)
+                        Item.BackgroundColor = UITheme.BackColor
+                        Item.ColumnHeadersDefaultCellStyle.BackColor = UITheme.BackColor
+                        Item.ColumnHeadersDefaultCellStyle.Font = New Font(Item.ColumnHeadersDefaultCellStyle.Font.Name, UITheme.GridFontSize + 1)
+                        Item.ColumnHeadersDefaultCellStyle.ForeColor = UITheme.ForeColor
+                        Item.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+                        Item.ColumnHeadersDefaultCellStyle.SelectionBackColor = UITheme.BackColor
+                        Item.ColumnHeadersDefaultCellStyle.SelectionForeColor = UITheme.ForeColor
+                        Item.DefaultCellStyle.BackColor = UITheme.BackColor
+                        Item.DefaultCellStyle.Font = New Font(Item.ColumnHeadersDefaultCellStyle.Font.Name, UITheme.GridFontSize)
+                        Item.DefaultCellStyle.ForeColor = UITheme.ForeColor
+                        Item.DefaultCellStyle.Padding = New Padding(3, 0, 3, 0)
+                        Item.DefaultCellStyle.SelectionBackColor = UITheme.SelectionBackColor
+                        Item.DefaultCellStyle.SelectionForeColor = UITheme.SelectionForeColor
+                        Item.GridColor = UITheme.LineColor
+                        Item.RowTemplate.Height = TextRenderer.MeasureText("Sample", Item.DefaultCellStyle.Font).Height + 6
+
+                    Case "CommonRoutines.Controls.DBTableLayoutPanel"
+                        Dim Item As Controls.DBTableLayoutPanel = DirectCast(c, Controls.DBTableLayoutPanel)
+                        Item.BackColor = UITheme.BackColor
+
                     Case "CommonRoutines.Controls.DropdownMenu"
                         Dim Item As Controls.DropdownMenu = DirectCast(c, Controls.DropdownMenu)
                         Item.PrimaryColor = UITheme.BackColor

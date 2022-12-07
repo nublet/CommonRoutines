@@ -262,6 +262,11 @@
                         Item.BackColor = Item.Parent.BackColor
                         Item.ForeColor = UITheme.ForeColor
 
+                    Case "System.Windows.Forms.TreeView"
+                        Dim Item As TreeView = DirectCast(c, TreeView)
+                        Item.BackColor = UITheme.BackColor
+                        Item.ForeColor = UITheme.ForeColor
+
                     Case "System.Windows.Forms.DateTimePicker"
                     Case "System.Windows.Forms.HScrollBar"
                     Case "System.Windows.Forms.VScrollBar"

@@ -86,6 +86,12 @@
     <Compile Include="Controls\DropdownMenu.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\DBTableLayoutPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DBDataGridView.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\MenuRenderer.vb" />
     <Compile Include="Controls\MenuColorTable.vb" />
     <Compile Include="Controls\PictureBox.vb">

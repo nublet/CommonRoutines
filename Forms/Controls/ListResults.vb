@@ -20,6 +20,7 @@ Namespace CommonRoutines.Controls
         Private _IsFocused As Boolean = False
         Private _UnderlinedStyle As Boolean = False
 
+        Private ReadOnly _MethodInvoker As MethodInvoker = Nothing
         Private ReadOnly _StringBuilder As System.Text.StringBuilder = Nothing
         Private ReadOnly _TextBox As Windows.Forms.TextBox = Nothing
         Private ReadOnly _UpdateTimer As Timers.Timer = Nothing
@@ -126,11 +127,14 @@ Namespace CommonRoutines.Controls
             _UpdateTimer.Stop()
             AddHandler _UpdateTimer.Elapsed, AddressOf UpdateTimer_Elapsed
 
+            _MethodInvoker = New MethodInvoker(AddressOf UpdateMessages)
+
             _StringBuilder = New Text.StringBuilder()
             _StringBuilder.EnsureCapacity(_Capacity)
 
             AutoScaleMode = AutoScaleMode.None
             BackColor = SystemColors.Window
+            DoubleBuffered = True
             Controls.Add(Me._TextBox)
             Font = New Font("Microsoft Sans Serif", 9.5!, FontStyle.Regular, GraphicsUnit.Point, CType(0, Byte))
             ForeColor = Color.DimGray
@@ -212,11 +216,6 @@ Namespace CommonRoutines.Controls
                 Return
             End If
 
-            If InvokeRequired Then
-                Invoke(New MethodInvoker(AddressOf UpdateMessages))
-                Return
-            End If
-
             If (_TextBox.TextLength + _StringBuilder.Length) >= _TextBox.MaxLength Then
                 ClearResults()
             End If
@@ -228,7 +227,7 @@ Namespace CommonRoutines.Controls
         End Sub
 
         Public Sub AddMessage(message As String)
-            Dim Line As String = ""
+            Dim Line As String = GetCurrentDate().GetSQLString("[HH:mm:ss] ")
 
             For I As Integer = 0 To Indent - 1
                 Line = "{0}{1}".FormatWith(Line, Settings.Indent)
@@ -270,7 +269,7 @@ Namespace CommonRoutines.Controls
         End Sub
 
         Private Sub UpdateTimer_Elapsed(sender As Object, e As Timers.ElapsedEventArgs)
-            UpdateMessages()
+            Invoke(_MethodInvoker)
 
             If _ChecksSinceLastUpdate < 20 Then
                 StartTimer()

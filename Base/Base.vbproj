@@ -73,6 +73,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cryptography\_Shared.vb" />
     <Compile Include="Cryptography\TripleDES.vb" />
     <Compile Include="Cryptography\Random.vb" />
     <Compile Include="Data\IDBAccess.vb" />

@@ -72,6 +72,8 @@
                 c.BackColor = UITheme.BackColor
             ElseIf FullName.StartsWith("Utilities.Controls") Then
                 c.BackColor = UITheme.BackColor
+            ElseIf FullName.StartsWith("WoWSheets.UserControls") Then
+                c.BackColor = UITheme.BackColor
             Else
                 Select Case FullName
                     Case "CommonRoutines.Controls.Button"

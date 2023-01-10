@@ -132,6 +132,8 @@
     <Compile Include="Controls\ToggleButton.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\_ITab.vb" />
+    <Compile Include="Controls\_TabBase.vb" />
     <Compile Include="Enums\ImmersiveColors.vb" />
     <Compile Include="Enums\MouseState.vb" />
     <Compile Include="Enums\ButtonState.vb" />

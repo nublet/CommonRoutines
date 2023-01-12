@@ -49,6 +49,39 @@
             Return "{0}{1}".FormatWith(title, Result)
         End Function
 
+        <Runtime.CompilerServices.Extension()> Public Function GetDate(s As String) As Date
+            Return s.GetDate({Settings.SQLDateFormat})
+        End Function
+
+        <Runtime.CompilerServices.Extension()> Public Function GetDate(s As String, dateFormat As String) As Date
+            Return s.GetDate({dateFormat})
+        End Function
+
+        <Runtime.CompilerServices.Extension()> Public Function GetDate(s As String, ParamArray args() As String) As Date
+            Dim DateFormats As New List(Of String)
+
+            DateFormats.AddRange(args)
+            DateFormats.AddRange({
+                                 Settings.SQLDateFormat,
+                                 "dd/MM/yyyy",
+                                 Settings.LongDatePattern,
+                                 Settings.ShortDatePattern,
+                                 "d-M-yyyy"
+                                 })
+
+            If s.IsSet() Then
+                Dim Result As Date = Nothing
+
+                For Each DateFormat As String In DateFormats
+                    If Date.TryParseExact(s, DateFormat, Settings.CurrentCulture, Globalization.DateTimeStyles.None, Result) Then
+                        Return Result
+                    End If
+                Next
+            End If
+
+            Return Nothing
+        End Function
+
         <Runtime.CompilerServices.Extension()> Public Function GetSQLVersion(s As String) As String
             Try
                 If Not s.Contains(".") Then

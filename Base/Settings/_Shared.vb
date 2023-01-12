@@ -2,15 +2,21 @@
 
     Public Module _Shared
 
+        Private _LongDatePattern As String = ""
+        Private _LongTimePattern As String = ""
+        Private _ShortDatePattern As String = ""
+        Private _ShortTimePattern As String = ""
         Private _SynchronizationContext As Threading.SynchronizationContext = Nothing
 
         Public Property ComputerName As String = ""
+        Public Property CurrentCulture As Globalization.CultureInfo = Nothing
         Public Property DateFormat As String = "yyyy-MM-dd HH:mm:ss"
         Public Property DebugLogging As Boolean = False
         Public Property DebugLoggingDBAccess As Boolean = False
         Public Property Indent As String = "   "
         Public Property ProductName As String = ""
         Public Property ProductVersion As String = ""
+        Public Property SQLDateFormat As String = "yyyy-MM-dd HH:mm:ss"
         Public Property StringComparison As StringComparison = StringComparison.OrdinalIgnoreCase
         Public Property UseInvariantCulture As Boolean = False
         Public Property UseUTCDate As Boolean = False
@@ -25,13 +31,37 @@
             End Set
         End Property
 
+        Public ReadOnly Property ShortDatePattern As String
+            Get
+                Return _ShortDatePattern
+            End Get
+        End Property
+
+        Public ReadOnly Property ShortTimePattern As String
+            Get
+                Return _ShortTimePattern
+            End Get
+        End Property
+
+        Public ReadOnly Property LongDatePattern As String
+            Get
+                Return _LongDatePattern
+            End Get
+        End Property
+
+        Public ReadOnly Property LongTimePattern As String
+            Get
+                Return _LongTimePattern
+            End Get
+        End Property
+
         Public ReadOnly Property SynchronizationContext As Threading.SynchronizationContext
             Get
                 Return _SynchronizationContext
             End Get
         End Property
 
-        Public Sub Initialise(errorLogLocation As String, performanceCounterLocation As String)
+        Public Sub Initialise(errorLogLocation As String, performanceCounterLocation As String, useInvariantCulture As Boolean)
             Try
                 _ErrorDetailLocation = errorLogLocation
                 _PerformanceCounterLocation = performanceCounterLocation
@@ -52,6 +82,20 @@
                 ProductName = My.Application.Info.ProductName
                 ProductVersion = My.Application.Info.Version.GetVersionString()
                 UserName = GetUsername()
+
+                _UseInvariantCulture = useInvariantCulture
+
+                If useInvariantCulture Then
+                    _CurrentCulture = Globalization.CultureInfo.InvariantCulture
+                Else
+                    _CurrentCulture = Globalization.CultureInfo.CurrentCulture
+                End If
+
+                _LongDatePattern = _CurrentCulture.DateTimeFormat.LongDatePattern
+                _LongTimePattern = _CurrentCulture.DateTimeFormat.LongTimePattern
+
+                _ShortDatePattern = _CurrentCulture.DateTimeFormat.ShortDatePattern
+                _ShortTimePattern = _CurrentCulture.DateTimeFormat.ShortTimePattern
             Catch ex As Exception
                 ex.ToLog()
             End Try

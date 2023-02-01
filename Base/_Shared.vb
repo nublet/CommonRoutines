@@ -34,7 +34,7 @@
             End If
         End Function
 
-        Public Function GetCurrentDate() As DateTime
+        Public Function GetCurrentDate() As Date
             If Settings.UseUTCDate Then
                 Return Date.UtcNow
             Else

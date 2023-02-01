@@ -9,10 +9,10 @@
         Private ReadOnly _PerformanceType As Enums.PerformanceType = Enums.PerformanceType.Unknown
         Private ReadOnly _ThreadID As Integer = -1
 
-        Public Property EndDate As DateTime = Nothing
+        Public Property EndDate As Date = Nothing
         Public Property EndTicks As Long = 0
         Public Property Message As String = ""
-        Public Property StartDate As DateTime = Nothing
+        Public Property StartDate As Date = Nothing
         Public Property StartTicks As Long = 0
 
         Public ReadOnly Property Children As List(Of PerformanceCounter)

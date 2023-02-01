@@ -2,14 +2,14 @@
 
     Public Class ErrorDetail
 
-        Private ReadOnly _ErrorDate As DateTime = Nothing
+        Private ReadOnly _ErrorDate As Date = Nothing
         Private ReadOnly _Exception As Exception = Nothing
         Private ReadOnly _Message As String = ""
         Private ReadOnly _Title As String = ""
 
         Private _Details As String = ""
 
-        Public ReadOnly Property ErrorDate As DateTime
+        Public ReadOnly Property ErrorDate As Date
             Get
                 Return _ErrorDate
             End Get

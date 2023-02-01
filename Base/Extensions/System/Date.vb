@@ -39,7 +39,7 @@
             Return d.ToString(dateFormat, GetCurrentCulture())
         End Function
 
-        <Runtime.CompilerServices.Extension()> Public Function GetSQLString(d As DateTime?, dateFormat As String) As String
+        <Runtime.CompilerServices.Extension()> Public Function GetSQLString(d As Date?, dateFormat As String) As String
             If d.HasValue Then
                 Return d.Value.GetSQLString(dateFormat)
             End If

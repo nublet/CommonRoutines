@@ -125,7 +125,7 @@
     <Compile Include="Registry\_Shared.vb" />
     <Compile Include="Settings\_Shared.vb" />
     <Compile Include="Type\System\Byte.vb" />
-    <Compile Include="Type\System\DateTime.vb" />
+    <Compile Include="Type\System\Date.vb" />
     <Compile Include="Type\System\Decimal.vb" />
     <Compile Include="Type\System\Double.vb" />
     <Compile Include="Type\System\Integer.vb" />

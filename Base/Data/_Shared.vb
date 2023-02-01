@@ -3,8 +3,8 @@
     Public Module _Shared
 
         Public Function GetDBParameter(obj As Object) As Object
-            If TypeOf obj Is DateTime OrElse TypeOf obj Is Date Then
-                Dim oDate As DateTime = DirectCast(obj, DateTime)
+            If TypeOf obj Is Date OrElse TypeOf obj Is DateTime Then
+                Dim oDate As Date = DirectCast(obj, Date)
                 If oDate.ToOADate = 0.0! Then
                     Return DBNull.Value
                 ElseIf Type.IsNullOrDefault(obj) Then

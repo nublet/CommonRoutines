@@ -61,7 +61,7 @@
             End Get
         End Property
 
-        Public Sub Initialise(errorLogLocation As String, performanceCounterLocation As String, useInvariantCulture As Boolean)
+        Public Sub Initialise(errorLogLocation As String, loadSettingsCache As Boolean, performanceCounterLocation As String, useInvariantCulture As Boolean)
             Try
                 _ErrorDetailLocation = errorLogLocation
                 _PerformanceCounterLocation = performanceCounterLocation
@@ -74,9 +74,11 @@
                 Performance.Handlers.Clear()
                 Performance.Handlers.Add(New Performance.LogPerformanceCounterHandler(AddressOf LogPerformanceCounter))
 
-                _CacheFileName = "{0}Setting.XML".FormatWith(GetBaseDirectory(Enums.BaseDirectory.AppDataCompanyProduct))
+                If loadSettingsCache Then
+                    _CacheFileName = "{0}Setting.XML".FormatWith(GetBaseDirectory(Enums.BaseDirectory.AppDataCompanyProduct))
 
-                LoadCache()
+                    LoadCache()
+                End If
 
                 ComputerName = GetComputerName()
                 ProductName = My.Application.Info.ProductName
@@ -123,6 +125,11 @@
         Public Sub LoadCache()
             Try
                 _Cache.Clear()
+
+                If _CacheFileName.IsNotSet() Then
+                    Return
+                End If
+
                 _Cache.AddRange(Data.Xml.Load(Of Models.Setting)(_CacheFileName))
             Catch ex As Exception
                 ex.ToLog()
@@ -131,6 +138,10 @@
 
         Public Sub SaveCache()
             Try
+                If _CacheFileName.IsNotSet() Then
+                    Return
+                End If
+
                 Data.Xml.Save(_CacheFileName, _Cache)
             Catch ex As Exception
                 ex.ToLog()

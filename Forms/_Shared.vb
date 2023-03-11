@@ -37,12 +37,16 @@
         End Sub
 
         Public Sub Initialise(forceFormBackColor As Boolean, useInvariantCulture As Boolean)
-            Initialise("{0}Errors.log".FormatWith(GetBaseDirectory(Enums.BaseDirectory.AppDataCompanyProductVersion)), forceFormBackColor, "{0}Performance.log".FormatWith(GetBaseDirectory(Enums.BaseDirectory.AppDataCompanyProductVersion)), useInvariantCulture)
+            Initialise("{0}Errors.log".FormatWith(GetBaseDirectory(Enums.BaseDirectory.AppDataCompanyProductVersion)), forceFormBackColor, True, "{0}Performance.log".FormatWith(GetBaseDirectory(Enums.BaseDirectory.AppDataCompanyProductVersion)), useInvariantCulture)
         End Sub
 
         Public Sub Initialise(errorLogLocation As String, forceFormBackColor As Boolean, performanceCounterLocation As String, useInvariantCulture As Boolean)
+            Initialise(errorLogLocation, forceFormBackColor, True, performanceCounterLocation, useInvariantCulture)
+        End Sub
+
+        Public Sub Initialise(errorLogLocation As String, forceFormBackColor As Boolean, loadSettingsCache As Boolean, performanceCounterLocation As String, useInvariantCulture As Boolean)
             Try
-                Settings.Initialise(errorLogLocation, performanceCounterLocation, useInvariantCulture)
+                Settings.Initialise(errorLogLocation, loadSettingsCache, performanceCounterLocation, useInvariantCulture)
 
                 Errors.Handlers.Add(New Errors.LogErrorDetailHandler(AddressOf LogErrorDetail))
 

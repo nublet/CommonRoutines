@@ -2,6 +2,8 @@
 
     Public Module _Shared
 
+        Public Const ParameterSplit As String = "<<::>>"
+
         Friend Const _TB As Long = 1099511627776 ' 1024 * 1024 * 1024 * 1024
         Friend Const _GB As Long = 1073741824    ' 1024 * 1024 * 1024
         Friend Const _MB As Long = 1048576       ' 1024 * 1024

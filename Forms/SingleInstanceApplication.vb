@@ -6,13 +6,15 @@ Namespace CommonRoutines
 
     Public Class SingleInstanceApplication
 
-        Public Const ParameterSplit As String = "<<::>>"
+        Public Delegate Sub NewInstanceMessageHandler(sender As Object, message As Object)
 
-        Private ReadOnly _ID As String
-        Private ReadOnly _InstanceCounter As Mutex
         Private ReadOnly _FirstInstance As Boolean
+        Private ReadOnly _InstanceCounter As Mutex
+        Private ReadOnly _WindowCaption As String
 
-        Private _NotifcationWindow As SIANativeWindow
+        Private _IsDisposed As Boolean = False
+        Private _NewMessage As NewInstanceMessageHandler
+        Private _NotificationWindow As SIANativeWindow
 
         Public ReadOnly Property Exists() As Boolean
             Get
@@ -20,95 +22,100 @@ Namespace CommonRoutines
             End Get
         End Property
 
-        Private Sub New()
-            _ID = "SIA_" + GetAppId()
-            _InstanceCounter = New Mutex(False, _ID, _FirstInstance)
+        Private Sub New(windowCaption As String)
+            _WindowCaption = windowCaption
+            _InstanceCounter = New Mutex(False, _WindowCaption, _FirstInstance)
         End Sub
 
         Private Function NotifyPreviousInstance(message As Object) As Boolean
-            'First, find the window of the previous instance
-            Dim handle As IntPtr = NativeRoutines.FindWindow(Nothing, _ID)
-            If handle <> IntPtr.Zero Then
-                'create a GCHandle to hold the serialized object. 
-                Dim bufferHandle As New GCHandle()
-                Try
-                    Dim buffer As Byte()
-                    Dim data As New NativeRoutines.Structures.COPYDATASTRUCT()
-                    If message IsNot Nothing Then
-                        'serialize the object into a byte array
-                        buffer = Serialize(message)
-                        'pin the byte array in memory
-                        bufferHandle = GCHandle.Alloc(buffer, GCHandleType.Pinned)
+            Dim WindowHandle As IntPtr = NativeRoutines.FindWindow(Nothing, _WindowCaption)
 
-                        data.dwData = IntPtr.Zero
-                        data.cbData = buffer.Length
-                        'get the address of the pinned buffer
-                        data.lpData = bufferHandle.AddrOfPinnedObject()
+            If WindowHandle <> IntPtr.Zero Then
+                Dim BufferHandle As New GCHandle()
+
+                Try
+                    Dim Buffer As Byte()
+                    Dim Data As New NativeRoutines.Structures.COPYDATASTRUCT()
+                    If message IsNot Nothing Then
+                        Buffer = Serialize(message)
+                        BufferHandle = GCHandle.Alloc(Buffer, GCHandleType.Pinned)
+
+                        Data.dwData = IntPtr.Zero
+                        Data.cbData = Buffer.Length
+                        Data.lpData = BufferHandle.AddrOfPinnedObject()
                     End If
 
-                    Dim dataHandle As GCHandle = GCHandle.Alloc(data, GCHandleType.Pinned)
+                    Dim DataHandle As GCHandle = GCHandle.Alloc(Data, GCHandleType.Pinned)
+
                     Try
-                        NativeRoutines.SendMessage(handle, NativeRoutines.Enums.WindowMessages.WM_COPYDATA, 0, dataHandle.AddrOfPinnedObject())
+                        NativeRoutines.SendMessage(WindowHandle, NativeRoutines.Enums.WindowMessages.WM_COPYDATA, 0, DataHandle.AddrOfPinnedObject())
                         Return True
                     Finally
-                        dataHandle.Free()
+                        DataHandle.Free()
                     End Try
                 Finally
-                    If bufferHandle.IsAllocated Then
-                        bufferHandle.Free()
+                    If BufferHandle.IsAllocated Then
+                        BufferHandle.Free()
                     End If
                 End Try
             End If
+
             Return False
         End Function
 
         Private Sub Dispose()
+            If _IsDisposed Then
+                Return
+            End If
+
+            _IsDisposed = True
+
             _InstanceCounter.Close()
-            If _NotifcationWindow IsNot Nothing Then
-                _NotifcationWindow.DestroyHandle()
+
+            If _NotificationWindow IsNot Nothing Then
+                _NotificationWindow.DestroyHandle()
             End If
         End Sub
 
-        Private Sub Init()
-            _NotifcationWindow = New SIANativeWindow()
-        End Sub
-
-        Private Sub OnNewInstanceMessage(message As Object)
-            RaiseEvent NewInstanceMessage(Me, message)
+        Private Sub Init(ByRef newMessage As NewInstanceMessageHandler)
+            _NewMessage = newMessage
+            _NotificationWindow = New SIANativeWindow(_WindowCaption, Me)
         End Sub
 
 #Region " SIANativeWindow "
 
-        'a utility window to communicate between application instances
         Private Class SIANativeWindow
             Inherits NativeWindow
 
-            Public Sub New()
+            Private ReadOnly _Parent As SingleInstanceApplication
+
+            Public Sub New(windowCaption As String, ByRef parent As SingleInstanceApplication)
+                _Parent = parent
+
                 Dim cp As New CreateParams With {
-                .Caption = _Instance._ID,
+                .Caption = windowCaption,
                 .Height = 0,
                 .Width = 0,
                 .X = 0,
                 .Y = 0
             }
-                'The window title is the same as the Id
+
                 CreateHandle(cp)
             End Sub
 
-            'The window procedure that handles notifications from new application instances
             Protected Overrides Sub WndProc(ByRef m As Message)
                 If m.Msg = NativeRoutines.Enums.WindowMessages.WM_COPYDATA Then
-                    'convert the message LParam to the WM_COPYDATA structure
-                    Dim data As NativeRoutines.Structures.COPYDATASTRUCT = DirectCast(Marshal.PtrToStructure(m.LParam, GetType(NativeRoutines.Structures.COPYDATASTRUCT)), NativeRoutines.Structures.COPYDATASTRUCT)
-                    Dim obj As Object = Nothing
-                    If data.cbData > 0 AndAlso data.lpData <> IntPtr.Zero Then
-                        'copy the native byte array to a .net byte array
-                        Dim buffer As Byte() = New Byte(data.cbData - 1) {}
-                        Marshal.Copy(data.lpData, buffer, 0, buffer.Length)
-                        'deserialize the buffer to a new object
-                        obj = Deserialize(buffer)
+                    Dim Data As NativeRoutines.Structures.COPYDATASTRUCT = DirectCast(Marshal.PtrToStructure(m.LParam, GetType(NativeRoutines.Structures.COPYDATASTRUCT)), NativeRoutines.Structures.COPYDATASTRUCT)
+                    Dim Result As Object = Nothing
+
+                    If Data.cbData > 0 AndAlso Data.lpData <> IntPtr.Zero Then
+                        Dim Buffer As Byte() = New Byte(Data.cbData - 1) {}
+                        Marshal.Copy(Data.lpData, Buffer, 0, Buffer.Length)
+
+                        Result = Deserialize(Buffer)
                     End If
-                    _Instance.OnNewInstanceMessage(obj)
+
+                    _Parent._NewMessage(_Parent, Result)
                 Else
                     MyBase.WndProc(m)
                 End If
@@ -120,60 +127,65 @@ Namespace CommonRoutines
 
 #Region " Shared "
 
-        Public Delegate Sub NewInstanceMessageHandler(sender As Object, message As Object)
+        Private Shared ReadOnly _Instances As New Dictionary(Of String, SingleInstanceApplication)
 
-        Public Shared Event NewInstanceMessage As NewInstanceMessageHandler
-
-        Private Shared ReadOnly _Instance As New SingleInstanceApplication()
-
-        Public Shared ReadOnly Property AlreadyExists() As Boolean
+        Public Shared ReadOnly Property AlreadyExists(windowCaption As String) As Boolean
             Get
-                Return _Instance.Exists
+                If Not _Instances.ContainsKey(windowCaption) Then
+                    _Instances.Add(windowCaption, New SingleInstanceApplication(windowCaption))
+                End If
+
+                Return _Instances(windowCaption).Exists
             End Get
         End Property
 
-        Public Shared Function NotifyExistingInstance(message As Object) As Boolean
-            If _Instance.Exists Then
-                Return _Instance.NotifyPreviousInstance(message)
-            End If
-            Return False
-        End Function
-
-        Public Shared Function NotifyExistingInstance() As Boolean
-            Return NotifyExistingInstance(Nothing)
-        End Function
-
         Private Shared Function Deserialize(buffer As Byte()) As Object
             Using stream As New IO.MemoryStream(buffer)
-                Return New BinaryFormatter().Deserialize(stream)
+                Dim Formatter As New BinaryFormatter()
+
+                Return Formatter.Deserialize(stream)
             End Using
         End Function
 
-        Private Shared Function GetAppId() As String
-            'Return IO.Path.GetFileName(Environment.GetCommandLineArgs()(0))
-            Return My.Application.Info.ProductName
-        End Function
-
-        Private Shared Function Serialize(obj As [Object]) As Byte()
+        Private Shared Function Serialize(obj As Object) As Byte()
             Using stream As New IO.MemoryStream()
-                Dim oBinaryFormatter As New BinaryFormatter()
-                oBinaryFormatter.Serialize(stream, obj)
+                Dim Formatter As New BinaryFormatter()
+                Formatter.Serialize(stream, obj)
+
                 Return stream.ToArray()
             End Using
         End Function
 
-        Public Shared Sub Initialize()
-            _Instance.Init()
-        End Sub
+        Public Shared Function NotifyExistingInstance(message As Object, windowCaption As String) As Boolean
+            If Not _Instances.ContainsKey(windowCaption) Then
+                _Instances.Add(windowCaption, New SingleInstanceApplication(windowCaption))
+            End If
+
+            If _Instances(windowCaption).Exists Then
+                Return _Instances(windowCaption).NotifyPreviousInstance(message)
+            End If
+
+            Return False
+        End Function
 
         Public Shared Sub Close()
             Try
-                If _Instance Is Nothing Then
-                    _Instance.Dispose()
-                End If
+                For Each Current As SingleInstanceApplication In _Instances.Values
+                    Current.Dispose()
+                Next
             Catch ex As Exception
                 ex.ToLog(True)
+            Finally
+                _Instances.Clear()
             End Try
+        End Sub
+
+        Public Shared Sub Initialize(windowCaption As String, ByRef newMessage As NewInstanceMessageHandler)
+            If Not _Instances.ContainsKey(windowCaption) Then
+                _Instances.Add(windowCaption, New SingleInstanceApplication(windowCaption))
+            End If
+
+            _Instances(windowCaption).Init(newMessage)
         End Sub
 
 #End Region

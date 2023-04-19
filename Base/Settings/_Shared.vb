@@ -103,6 +103,29 @@
             End Try
         End Sub
 
+        Public Sub SetPaths(errorLogLocation As String, performanceCounterLocation As String, useInvariantCulture As Boolean)
+            Try
+                _ErrorDetailLocation = errorLogLocation
+                _PerformanceCounterLocation = performanceCounterLocation
+
+                _UseInvariantCulture = useInvariantCulture
+
+                If useInvariantCulture Then
+                    _CurrentCulture = Globalization.CultureInfo.InvariantCulture
+                Else
+                    _CurrentCulture = Globalization.CultureInfo.CurrentCulture
+                End If
+
+                _LongDatePattern = _CurrentCulture.DateTimeFormat.LongDatePattern
+                _LongTimePattern = _CurrentCulture.DateTimeFormat.LongTimePattern
+
+                _ShortDatePattern = _CurrentCulture.DateTimeFormat.ShortDatePattern
+                _ShortTimePattern = _CurrentCulture.DateTimeFormat.ShortTimePattern
+            Catch ex As Exception
+                ex.ToLog()
+            End Try
+        End Sub
+
 #Region " Cache "
 
         Private ReadOnly _Cache As New List(Of Models.Setting)

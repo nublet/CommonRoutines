@@ -21,7 +21,6 @@
 
         Public Function GetConnectionString(database As String, server As String, userName As String, password As String) As String
             Dim CSBuilder As New SqlClient.SqlConnectionStringBuilder With {
-                .AsynchronousProcessing = True,
                 .MultipleActiveResultSets = True,
                 .Pooling = True,
                 .DataSource = server,

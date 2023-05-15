@@ -10,6 +10,20 @@
             Return Not d.IsEqualTo(value)
         End Function
 
+        <Runtime.CompilerServices.Extension()> Public Function GetRelative(d As Date) As String
+            Dim CurrentDate As Date = GetCurrentDate()
+
+            If d = Date.MinValue Then
+                Return ""
+            ElseIf CurrentDate.Year = d.Year AndAlso CurrentDate.Month = d.Month AndAlso CurrentDate.Day = d.Day Then
+                Return d.GetSQLString("HH:mm")
+            ElseIf CurrentDate.Year = d.Year Then
+                Return d.GetSQLString("MMM dd")
+            Else
+                Return d.GetSQLString("dd/MM/yy")
+            End If
+        End Function
+
         <Runtime.CompilerServices.Extension()> Public Function GetSQLString(d As Date) As String
             Return d.GetSQLString("")
         End Function

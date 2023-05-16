@@ -277,9 +277,19 @@
                         Dim Item As PictureBox = DirectCast(c, PictureBox)
                         Item.BackColor = Item.Parent.BackColor
 
+                    Case "System.Windows.Forms.TabControl"
+                        Dim Item As TabControl = DirectCast(c, TabControl)
+                        Item.BackColor = Item.Parent.BackColor
+                        Item.ForeColor = UITheme.ForeColor
+
                     Case "System.Windows.Forms.TableLayoutPanel"
                         Dim Item As TableLayoutPanel = DirectCast(c, TableLayoutPanel)
                         Item.BackColor = UITheme.BackColor
+
+                    Case "System.Windows.Forms.TabPage"
+                        Dim Item As TabPage = DirectCast(c, TabPage)
+                        Item.BackColor = Item.Parent.BackColor
+                        Item.ForeColor = UITheme.ForeColor
 
                     Case "System.Windows.Forms.TextBox"
                         Dim Item As TextBox = DirectCast(c, TextBox)

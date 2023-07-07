@@ -91,6 +91,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\System\ULong.vb" />
     <Compile Include="HTTPHelpers.vb" />
     <Compile Include="Cryptography\_Shared.vb" />
     <Compile Include="Cryptography\TripleDES.vb" />

@@ -14,7 +14,7 @@
         End Property
 
         Public Function GetErrors() As IEnumerable(Of Models.ErrorDetail)
-            Return _ErrorDetails.OrderByDescending(Function(o) o.ErrorDate)
+            Return _ErrorDetails.OrderByDescending(Function(o) o.DateReceived)
         End Function
 
         Public Function GetStackMethodName() As String

@@ -266,10 +266,7 @@
                     Next
                 Next
 
-                Using writer As New IO.StreamWriter(Settings.ErrorDetailLocation, True)
-                    writer.WriteLine(StringBuilder.ToString())
-                    writer.WriteLine("")
-                End Using
+                StringBuilder.ToString().ToLog(True)
             End If
         End Sub
 

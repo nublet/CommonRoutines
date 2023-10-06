@@ -303,10 +303,10 @@
                 Dim PSI As New ProcessStartInfo With {
                     .Arguments = "",
                     .CreateNoWindow = False,
-                    .FileName = Settings.ErrorDetailLocation,
+                    .FileName = ErrorLogLocation,
                     .UseShellExecute = True,
                     .WindowStyle = ProcessWindowStyle.Maximized,
-                    .WorkingDirectory = IO.Path.GetDirectoryName(Settings.ErrorDetailLocation)
+                    .WorkingDirectory = IO.Path.GetDirectoryName(ErrorLogLocation)
                 }
 
                 Process.Start(PSI)

@@ -2,6 +2,9 @@
 
     Public Module _Shared
 
+        Public ReadOnly Property ErrorLogLocation As String = ""
+        Public ReadOnly Property PerformanceCounterLocation As String = ""
+
         Public Function GetScreenWorkingArea() As Rectangle
             Dim ScreenName As String = Settings.DefaultScreenName
 
@@ -46,7 +49,10 @@
 
         Public Sub Initialise(errorLogLocation As String, forceFormBackColor As Boolean, loadSettingsCache As Boolean, performanceCounterLocation As String, useInvariantCulture As Boolean)
             Try
-                Settings.Initialise(errorLogLocation, loadSettingsCache, performanceCounterLocation, useInvariantCulture)
+                Settings.Initialise(loadSettingsCache, useInvariantCulture)
+
+                _ErrorLogLocation = errorLogLocation
+                _PerformanceCounterLocation = performanceCounterLocation
 
                 Errors.Handlers.Add(New Errors.LogErrorDetailHandler(AddressOf LogErrorDetail))
 
@@ -59,6 +65,8 @@
 #Region " Error Handler "
 
         Private Sub LogErrorDetail(silent As Boolean, ByRef errorDetail As Models.ErrorDetail)
+            errorDetail.WriteToFile(ErrorLogLocation)
+
             If silent Then
                 Return
             End If

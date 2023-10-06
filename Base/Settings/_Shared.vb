@@ -61,18 +61,12 @@
             End Get
         End Property
 
-        Public Sub Initialise(errorLogLocation As String, loadSettingsCache As Boolean, performanceCounterLocation As String, useInvariantCulture As Boolean)
+        Public Sub Initialise(loadSettingsCache As Boolean, useInvariantCulture As Boolean)
             Try
-                _ErrorDetailLocation = errorLogLocation
-                _PerformanceCounterLocation = performanceCounterLocation
-
                 _SynchronizationContext = Threading.SynchronizationContext.Current
 
                 Errors.Handlers.Clear()
-                Errors.Handlers.Add(New Errors.LogErrorDetailHandler(AddressOf LogErrorDetail))
-
                 Performance.Handlers.Clear()
-                Performance.Handlers.Add(New Performance.LogPerformanceCounterHandler(AddressOf LogPerformanceCounter))
 
                 If loadSettingsCache Then
                     _CacheFileName = "{0}Setting.XML".FormatWith(GetBaseDirectory(Enums.BaseDirectory.AppDataCompanyProduct))
@@ -103,11 +97,8 @@
             End Try
         End Sub
 
-        Public Sub SetPaths(errorLogLocation As String, performanceCounterLocation As String, useInvariantCulture As Boolean)
+        Public Sub SetDetails(useInvariantCulture As Boolean)
             Try
-                _ErrorDetailLocation = errorLogLocation
-                _PerformanceCounterLocation = performanceCounterLocation
-
                 _UseInvariantCulture = useInvariantCulture
 
                 If useInvariantCulture Then
@@ -180,64 +171,6 @@
             End If
 
             Setting.Value = value
-        End Sub
-
-#End Region
-
-#Region " Error Handler "
-
-        Private _ErrorDetailLocation As String = ""
-
-        Public ReadOnly Property ErrorDetailLocation As String
-            Get
-                Return _ErrorDetailLocation
-            End Get
-        End Property
-
-        Private Sub LogErrorDetail(silent As Boolean, ByRef errorDetail As Models.ErrorDetail)
-            Try
-                Using writer As New IO.StreamWriter(_ErrorDetailLocation, True)
-                    writer.WriteLine(errorDetail.Details)
-                    writer.WriteLine("")
-                End Using
-            Catch ex As Exception
-            End Try
-        End Sub
-
-#End Region
-
-#Region " Performance Handler "
-
-        Private _PerformanceCounterLocation As String = ""
-
-        Public ReadOnly Property PerformanceCounterLocation As String
-            Get
-                Return _PerformanceCounterLocation
-            End Get
-        End Property
-
-        Private Sub LogPerformanceCounter(performanceState As Enums.PerformanceState, ByRef performanceCounter As Models.PerformanceCounter)
-            Try
-                If Not DebugLogging Then
-                    Return
-                End If
-
-                If performanceState = Enums.PerformanceState.Started OrElse performanceState = Enums.PerformanceState.Unknown Then
-                    Return
-                End If
-
-                If performanceCounter.HasParent Then
-                    Return
-                End If
-
-                Dim Message As String = performanceCounter.GetMessage("")
-
-                Using writer As New IO.StreamWriter(_PerformanceCounterLocation, True)
-                    writer.WriteLine(Message)
-                    writer.WriteLine("")
-                End Using
-            Catch ex As Exception
-            End Try
         End Sub
 
 #End Region

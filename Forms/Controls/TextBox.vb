@@ -157,6 +157,15 @@ Namespace CommonRoutines.Controls
             End Set
         End Property
 
+        <Category("Common Routines")> Public Property WordWrap As Boolean
+            Get
+                Return _TextBox.WordWrap
+            End Get
+            Set(value As Boolean)
+                _TextBox.WordWrap = value
+            End Set
+        End Property
+
         Public Sub New()
             _TextBox = New Windows.Forms.TextBox()
 

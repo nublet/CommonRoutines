@@ -53,7 +53,19 @@
             Dim Key As String = type.FullName.ToLower()
 
             If Not _Fields.ContainsKey(Key) Then
-                _Fields.Add(Key, type.GetFields(System.Reflection.BindingFlags.Public Or System.Reflection.BindingFlags.NonPublic Or System.Reflection.BindingFlags.Instance).OrderBy(Function(o) o.Name).Select(Function(o) CreateAccessor(o)).ToList())
+                SyncLock _Fields
+                    Dim Items As List(Of IFieldAccessor) = type.GetFields(System.Reflection.BindingFlags.Public Or System.Reflection.BindingFlags.NonPublic Or System.Reflection.BindingFlags.Instance).OrderBy(Function(o) o.Name).Select(Function(o) CreateAccessor(o)).ToList()
+
+                    Try
+                        If _Fields.ContainsKey(Key) Then
+                            _Fields(Key).Clear()
+                            _Fields(Key).AddRange(Items)
+                        Else
+                            _Fields.Add(Key, Items)
+                        End If
+                    Catch ex As Exception
+                    End Try
+                End SyncLock
             End If
 
             Return _Fields(Key).ToList()

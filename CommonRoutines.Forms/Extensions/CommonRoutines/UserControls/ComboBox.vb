@@ -51,16 +51,19 @@
 
         <Runtime.CompilerServices.Extension()> Public Sub PopulateComboItems(ByRef c As UserControls.ComboBox, fixedItems As IEnumerable(Of String), items As IEnumerable(Of String))
             Dim ComboItems As New List(Of Models.ComboItem)
+
             If fixedItems IsNot Nothing AndAlso fixedItems.Any() Then
                 For Each item As String In fixedItems
                     ComboItems.Add(New Models.ComboItem(item))
                 Next
             End If
+
             If items IsNot Nothing AndAlso items.Any() Then
                 For Each item As String In items.Distinct()
                     ComboItems.Add(New Models.ComboItem(item))
                 Next
             End If
+
             c.PopulateComboItems(ComboItems)
         End Sub
 

@@ -5,7 +5,7 @@ Namespace Cryptography
     Public Class Random
         Inherits RandomNumberGenerator
 
-        Private Shared _RandomNumberGenerator As RandomNumberGenerator = Create()
+        Private Shared ReadOnly _RandomNumberGenerator As RandomNumberGenerator = Create()
 
         Public Overrides Sub GetBytes(data() As Byte)
             _RandomNumberGenerator.GetBytes(data)

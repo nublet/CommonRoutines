@@ -6,7 +6,7 @@
     Public Function GetResourceIcon(imageData As Byte()) As Drawing.Icon
         Dim Result As Drawing.Icon
 
-        Using stream As New IO.MemoryStream(My.Resources.INFO)
+        Using stream As New IO.MemoryStream(imageData)
             Result = New Drawing.Icon(stream)
         End Using
 

@@ -117,7 +117,7 @@ Namespace Data
                 Return 1
             End If
 
-            For Each Current As Models.PropertyComparer(Of T) In _Comparers
+            For Each Current In _Comparers
                 Dim Result As Integer = Current.Compare(x, y)
 
                 If Result.IsNotEqualTo(0) Then

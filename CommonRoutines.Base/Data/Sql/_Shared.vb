@@ -1,4 +1,4 @@
-﻿Imports System.Data
+﻿Imports Microsoft.Data
 
 Namespace Data.Sql
 
